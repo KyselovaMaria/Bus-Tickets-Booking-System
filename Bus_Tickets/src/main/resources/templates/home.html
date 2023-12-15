@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Пошук квитків на автобуси</title>
+    <style>
+      body {
+        color: #000080;
+        font-size: 22px;
+      }
+
+      h1 {
+        background-color: rgb(53, 156, 242);
+        color: rgb(255, 255, 255);
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      .rezon-forms {
+        background-color: #ffffff;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 800px;
+        border-radius: 10px;
+      }
+
+      .search {
+        background-color: rgb(249, 37, 63);
+        color: #ffffff;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .search:hover {
+        background-color: #dc143c;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .field {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 20px;
+      }
+
+      .twitter-typeahead {
+        display: inline-block;
+        width: 100%;
+      }
+
+      .tt-hint,
+      .tt-input,
+      .tt-menu {
+        width: 100%;
+      }
+
+      .form-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--ui-space-inset-md);
+      }
+
+      .input-row {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: var(--ui-space-inset-md);
+      }
+
+      label {
+        margin-bottom: var(--ui-space-inset-xs);
+      }
+
+      input,
+      button,
+      select {
+        padding: var(--ui-space-inset-sm);
+        font-size: var(--ui-font-size-md);
+      }
+
+      #from {
+        background-color: rgb(249, 37, 63);
+        color: #ffffff;
+      }
+
+      button {
+        background-color: rgb(249, 37, 63);
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #dc143c;
+      }
+
+      .schedule {
+        margin-top: 20px;
+      }
+
+      .schedule h2 {
+        color: rgb(53, 156, 242);
+        text-align: center;
+      }
+
+      .schedule table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      .schedule th,
+      .schedule td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+
+      .schedule th {
+        background-color: rgb(53, 156, 242);
+        color: white;
+      }
+
+      .schedule tbody tr:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="plano-module menu-top">
+      <a href="about.html" >Про нас</a>
+      <a href="return.html" > Повернення</a>
+      <a href="contact.html" >Контакти</a>
+      <a href="news.html" >Новини</a>
+    </div>
+    <div id="content" class="content">
+      <div class="after-header">
+        <div class="container">
+          <h1>Пошук квитків на автобуси</h1>
+        </div>
+      </div>
+      <div class="rezon-forms" id="rezon-forms">
+        <div class="rez-container container">
+          <form
+            role="form"
+            id="bus-form-shoot"
+            autocomplete="off"
+            class="rezon-form bus-form bus-form-new"
+          >
+            <div class="fields-container oneway">
+              <div class="field station from">
+                <label
+                  data-local="true"
+                  data-localtext="FROM"
+                  class="menu-title"
+                >
+                  <span class="link-left"></span> Звідки
+                  <span class="link-right v-hide"></span>
+                </label>
+                <div class="control-field">
+                  <div class="inside">
+                    <span class="city-display">Київ</span>
+                    <input type="hidden" name="LocationFromId" value="1" />
+                  </div>
+                </div>
+              </div>
+              <div class="field station to">
+                <label
+                  data-local="true"
+                  data-localtext="FROM"
+                  class="menu-title"
+                >
+                  <span class="link-left"></span> Куди
+                  <span class="link-right v-hide"></span>
+                </label>
+                <div class="control-field">
+                  <div class="inside twitter-typeahead">
+                    <input
+                      type="text"
+                      data-local="true"
+                      data-localplaceholder="BUSES_PLACEHOLDER"
+                      placeholder="Введіть назву міста"
+                      class="book-to isEmpty tt-input"
+                      autocomplete="off"
+                      spellcheck="false"
+                      aria-label="Select field"
+                      dir="auto"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="field date">
+                <label for="date">Дата</label>
+                <input type="date" id="date" name="date" />
+              </div>
+              <div class="field find">
+                <button
+                  type="submit"
+                  data-local="true"
+                  data-localtext="FIND"
+                  class="search"
+                >
+                  Знайти
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="schedule">
+        <h2>Розклад автобусів</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Номер рейсу</th>
+              <th>Кінцевий пункт</th>
+              <th>Проміжний пункт</th>
+              <th>Час відправлення</th>
+              <th>Вільні місця</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr th:each="ticket : ${tickets}">
+            <td>
+              <a th:href="@{'/purchase/' + ${ticket.number}}" th:text="${ticket.number}"></a>
+            </td>
+            <td th:text="${ticket.destination}"></td>
+            <td th:text="${ticket.intermediate}"></td>
+            <td th:text="${ticket.departureTime}"></td>
+            <td th:text="${ticket.availableSeats}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

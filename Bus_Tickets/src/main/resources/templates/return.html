@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Повернення квитка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 20px;
+            font-size: 22px;
+        }
+
+        h1 {
+            background-color: rgb(53, 156, 242);
+            color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            margin-top: 20px;
+        }
+
+        .input-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 18px;
+            background-color: rgb(53, 156, 242);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #337ab7;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .success-message {
+            color: green;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Повернення квитка</h1>
+
+    <div class="form-container">
+        <div class="input-row">
+            <label for="name">Ім'я:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="input-row">
+            <label for="email">Електронна пошта:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="input-row">
+            <label for="ticketNumber">Номер рейсу:</label>
+            <input type="text" id="ticketNumber" name="ticketNumber" required>
+        </div>
+
+        <div class="input-row">
+            <label for="departureDate">Дата відправлення:</label>
+            <input type="date" id="departureDate" name="departureDate" required>
+        </div>
+
+        <div class="input-row">
+            <label for="quantity">Кількість квитків:</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+        </div>
+
+        <button onclick="checkTickets()">Перевірити квитки</button>
+    </div>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function checkTickets() {
+        // Логіка для перевірки квитків
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var ticketNumber = document.getElementById('ticketNumber').value;
+        var departureDate = document.getElementById('departureDate').value;
+        var quantity = document.getElementById('quantity').value;
+
+        // Використайте AJAX-запит або інші засоби для перевірки квитків на сервері
+
+        // Приклад результату
+        var resultElement = document.getElementById('result');
+        var successMessage = '<p class="success-message">Квиток успішно знайдений. Очікуйте на повернення коштів за ' + quantity + ' квитк(и).</p>';
+        var errorMessage = '<p class="error-message">Квитки не знайдено. Перевірте введені дані.</p>';
+
+        // Приклад виведення результату
+        // Замість цього блоку вставте логіку, яка отримає відповідь від сервера
+        if (ticketNumber === '123' && name === 'John Doe' && email === 'john@example.com' && departureDate === '2023-12-31') {
+            resultElement.innerHTML = successMessage;
+        } else {
+            resultElement.innerHTML = errorMessage;
+        }
+    }
+</script>
+
+</body>
+
+</html>
