@@ -10,6 +10,7 @@ import com.example.bus_tickets.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,31 +32,35 @@ public class PurchaseServiceImpl implements PurchaseService {
     public User purchaseTicket(String userEmail, String userName, long ticketNumber, int quantity) {
         Optional<Ticket> optionalTicket = ticketService.getTicketById(ticketNumber);
 
-        if (((Optional<?>) optionalTicket).isPresent()) {
+        if (optionalTicket.isPresent()) {
             Ticket ticket = optionalTicket.get();
             double totalPrice = calculateTotalPrice(ticket, quantity, false);
-
-            PurchaseInfo purchaseInfo = new PurchaseInfo();
-            purchaseInfo.setPurchaseId(UUID.randomUUID().toString());
-            purchaseInfo.setUserEmail(userEmail);
-            purchaseInfo.setUserName(userName);
-            purchaseInfo.setPurchasedTicket(ticket);
-            purchaseInfo.setQuantity(quantity);
-            purchaseInfo.setTotalPrice(totalPrice);
 
             User user = userService.getUserByEmail(userEmail);
 
             if (user != null) {
+                PurchaseInfo purchaseInfo = new PurchaseInfo();
+                purchaseInfo.setUserEmail(user);
+                purchaseInfo.setPurchasedTicket(ticket);
+                purchaseInfo.setQuantity(quantity);
+                purchaseInfo.setTotalPrice(totalPrice);
+
+                if (user.getPurchases() == null) {
+                    user.setPurchases(new ArrayList<>());
+                }
+
                 user.getPurchases().add(purchaseInfo);
                 userService.updateUser(user);
-            }
 
-            return user;
+                return user;
+            } else {
+                return null;
+            }
         } else {
-            // Логіка для випадку, коли квиток з вказаним номером не знайдено
             return null;
         }
     }
+
 
     @Override
     public PurchaseInfo getPurchaseInfo(String purchaseId) {

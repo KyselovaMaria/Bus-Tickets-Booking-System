@@ -15,16 +15,14 @@ import java.util.UUID;
 public class PurchaseInfo {
 
     @Id
-    private String purchaseId;
-
-    private String userEmail;
-    private String userName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long purchaseId;
 
     @ManyToOne
     @JoinColumn(name = "user_email")
-    private User user;
+    private User userEmail;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ticket_id")
     private Ticket purchasedTicket;
 
@@ -34,11 +32,8 @@ public class PurchaseInfo {
     // getters and setters
 
     // constructor
-    public PurchaseInfo(String userEmail, String userName, User user, Ticket purchasedTicket, int quantity, double totalPrice) {
-        this.purchaseId = UUID.randomUUID().toString();
+    public PurchaseInfo(User userEmail, Ticket purchasedTicket, int quantity, double totalPrice) {
         this.userEmail = userEmail;
-        this.userName = userName;
-        this.user = user;
         this.purchasedTicket = purchasedTicket;
         this.quantity = quantity;
         this.totalPrice = totalPrice;

@@ -20,7 +20,7 @@ public class User {
 
     private String username;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userEmail")
     private List<PurchaseInfo> purchases;
 
     public User(String username, String email) {
