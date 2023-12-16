@@ -112,16 +112,13 @@
         var ticketNumber = document.getElementById('ticketNumber').value;
         var quantity = document.getElementById('quantity').value;
 
-        // Використайте AJAX-запит або інші засоби для покупки квитка на сервері
 
-        // Приклад результату
         var resultElement = document.getElementById('result');
         var successMessage = '<p class="success-message">Оплата успішно здійснена. Дякуємо за покупку ' + quantity + ' квитк(ів).</p>';
         var errorMessage = '<p class="error-message">Оплата не вдалася. Перевірте введені дані та спробуйте ще раз.</p>';
 
-        // Приклад виведення результату
-        // Замість цього блоку вставте логіку, яка отримає відповідь від сервера
-        if (name === 'John Doe' && email === 'john@example.com' && ticketNumber === '123') {
+
+        if (quantity!=0) {
             resultElement.innerHTML = successMessage;
         } else {
             resultElement.innerHTML = errorMessage;

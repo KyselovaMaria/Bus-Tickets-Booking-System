@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Data
@@ -29,6 +30,16 @@ public class Ticket {
     private double priceToIntermediate;
     private double priceToEnd;
 
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
+    public String getFormattedDepartureTime() {
+        return departureTime.format(formatter);
+    }
+
+    public String getFormattedArrivalTime() {
+        return arrivalTime.format(formatter);
+    }
     public Ticket(String number, String destination, String intermediate, int availableSeats,
                   LocalDateTime departureTime, LocalDateTime arrivalTime, double basePrice,
                   double priceToIntermediate, double priceToEnd) {

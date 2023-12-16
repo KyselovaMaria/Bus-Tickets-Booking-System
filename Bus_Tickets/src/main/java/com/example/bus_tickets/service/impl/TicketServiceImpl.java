@@ -3,11 +3,13 @@ package com.example.bus_tickets.service.impl;
 import com.example.bus_tickets.model.Ticket;
 import com.example.bus_tickets.repository.TicketRepository;
 import com.example.bus_tickets.service.TicketService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,25 @@ public class TicketServiceImpl implements TicketService {
         this.ticketRepository = ticketRepository;
     }
 
+
+    @PostConstruct
+    public void init() {
+        // Створення об'єктів Ticket і додавання їх до бази даних при старті додатку
+        List<Ticket> initialTickets = Arrays.asList(
+                new Ticket("123", "Львів", "Ужгород", 50,
+                        LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(3),
+                        100.0, 20.0, 30.0),
+                new Ticket("456", "Чоп","Львів" , 30,
+                        LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(6),
+                        120.0, 25.0, 35.0),
+                new Ticket("789", "Дніпро", "Харків", 40,
+                        LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4),
+                        90.0, 15.0, 25.0)
+                // Додайте більше рейсів, якщо потрібно
+        );
+
+        ticketRepository.saveAll(initialTickets);
+    }
     @Override
     public List<Ticket> getAllTickets() {
         return ticketRepository.findAll();

@@ -157,10 +157,10 @@
 
   <body>
     <div class="plano-module menu-top">
-      <a href="about.html" >Про нас</a>
-      <a href="return.html" > Повернення</a>
-      <a href="contact.html" >Контакти</a>
-      <a href="news.html" >Новини</a>
+      <a href="about" >Про нас</a>
+      <a href="return" > Повернення</a>
+      <a href="contact" >Контакти</a>
+      <a href="news" >Новини</a>
     </div>
     <div id="content" class="content">
       <div class="after-header">
@@ -251,11 +251,11 @@
           <tbody>
           <tr th:each="ticket : ${tickets}">
             <td>
-              <a th:href="@{'/purchase/' + ${ticket.number}}" th:text="${ticket.number}"></a>
+              <a th:href="@{'/booking/' + ${ticket.id}}" th:text="${ticket.number}"></a>
             </td>
             <td th:text="${ticket.destination}"></td>
             <td th:text="${ticket.intermediate}"></td>
-            <td th:text="${ticket.departureTime}"></td>
+            <td th:text="${ticket.getFormattedDepartureTime()}"></td>
             <td th:text="${ticket.availableSeats}"></td>
           </tr>
           </tbody>
