@@ -55,8 +55,9 @@ spring.mvc.throw-exception-if-no-handler-found=true
 
 spring.resources.add-mappings=false
 
-# SO you have to check the password, username and create database with the right name
-*the first three routes will be created automatically
+### You have to check the password, username and create database with the right name
+### *the first three routes will be created automatically
+
 
 
 ## Overview screenshots
