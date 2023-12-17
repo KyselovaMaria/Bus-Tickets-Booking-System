@@ -1,6 +1,6 @@
 # Bus-Tickets-Booking-System
 
-## Каса автовокзалу - Task description
+## Каса автовокзалу - Task Description
 
 Розклад автобусів: номер рейсу, кінцевий та проміжний пункти, час відправлення.
 
@@ -55,8 +55,8 @@ spring.mvc.throw-exception-if-no-handler-found=true
 
 spring.resources.add-mappings=false
 
-## SO you have to check the password, username and create database with the right name, *the first three routes will be created automatically
-
+# SO you have to check the password, username and create database with the right name
+*the first three routes will be created automatically
 
 
 ## Overview screenshots
