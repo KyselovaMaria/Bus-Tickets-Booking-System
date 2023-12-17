@@ -32,7 +32,6 @@ public class MainController {
     @GetMapping("/")
     public String home(Model model) {
         List<Ticket> allTickets = ticketService.getAllTickets();
-
         model.addAttribute("tickets", allTickets);
 
         return "home";
@@ -61,9 +60,9 @@ public class MainController {
     @Autowired
     private PurchaseService purchaseService;
 
-    @GetMapping("/booking/{id}")
-    public String showBookingPage(@PathVariable long id, Model model) {
-        Optional<Ticket> optionalTicket = ticketService.getTicketById(id);
+    @GetMapping("/booking/{ticketid}")
+    public String showBookingPage(@PathVariable("ticketid") long ticketid,  Model model) {
+        Optional<Ticket> optionalTicket = ticketService.getTicketById(ticketid);
 
         if (optionalTicket.isPresent()) {
             Ticket ticket = optionalTicket.get();
@@ -74,34 +73,40 @@ public class MainController {
         }
     }
 
-    @PostMapping("/booking/{id}")
-    public ResponseEntity<String> purchaseTicket(@PathVariable long id, @RequestParam String name,
+    @PostMapping("/booking/{ticketid}")
+    public ResponseEntity<String> purchaseTicket(@PathVariable("ticketid") long ticketid, @RequestParam String name,
                                                  @RequestParam String email, @RequestParam int quantity) {
         try {
-            Optional<Ticket> optionalTicket = ticketService.getTicketById(id);
+            System.out.println("Name: " + name);
+            System.out.println("Email: " + email);
+            User user = new User(name, email);
+            Optional<Ticket> optionalTicket = ticketService.getTicketById(ticketid);
 
             if (optionalTicket.isPresent()) {
                 Ticket ticket = optionalTicket.get();
                 double totalPrice = calculateTotalPrice(ticket, quantity, false);
 
-                User user = userService.getUserByEmail(email);
-
                 if (user != null) {
                     PurchaseInfo purchaseInfo = new PurchaseInfo(user, ticket, quantity, totalPrice);
+                    System.out.println(purchaseInfo);
 
-                    if (user.getPurchases() == null) {
-                        user.setPurchases(new ArrayList<>());
-                    }
+                    user.setPurchases(new ArrayList<>());
 
                     user.getPurchases().add(purchaseInfo);
                     userService.updateUser(user);
+                    ticket.setAvailableSeats(ticket.getAvailableSeats()-quantity);
+                    ticketService.updateTicket(ticket);
 
-                    return ResponseEntity.ok("Оплата успішно здійснена. Дякуємо за покупку " + quantity + " квитк(ів).");
+                    System.out.println("Num of available seats " + ticket.getAvailableSeats());
+
+                    return ResponseEntity.ok("Оплата успішно здійснена. Дякуємо за покупку " + quantity +
+                            " квитк(ів)." +"   Cума: "+ purchaseInfo.getTotalPrice()+
+                            "   ID покупки: "+ purchaseInfo.getPurchaseId() );
                 } else {
                     return ResponseEntity.badRequest().body("Помилка при покупці квитка.");
                 }
             } else {
-                return ResponseEntity.badRequest().body("Квиток з номером " + id + " не знайдено.");
+                return ResponseEntity.badRequest().body("Квиток з номером " + ticketid + " не знайдено.");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Помилка обробки запиту.");

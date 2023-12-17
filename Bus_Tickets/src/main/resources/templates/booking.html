@@ -76,9 +76,10 @@
 
 <div class="container">
     <h1>Покупка квитка</h1>
+    <h2> *до кінцевої зупинки </h2>
 
     <div class="form-container">
-        <form action="/booking/{id}" method="post">
+        <form action="/booking/{id}" method="post" th:action="@{/booking/{id}(id=${ticket.id})}">
             <div class="input-row">
                 <label for="name">Ім'я:</label>
                 <input type="text" id="name" name="name" required>
