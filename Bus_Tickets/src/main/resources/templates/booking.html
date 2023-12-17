@@ -78,53 +78,33 @@
     <h1>Покупка квитка</h1>
 
     <div class="form-container">
-        <div class="input-row">
-            <label for="name">Ім'я:</label>
-            <input type="text" id="name" name="name" required>
-        </div>
+        <form action="/booking/{id}" method="post">
+            <div class="input-row">
+                <label for="name">Ім'я:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
 
-        <div class="input-row">
-            <label for="email">Електронна пошта:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
+            <div class="input-row">
+                <label for="email">Електронна пошта:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
 
-        <div class="input-row">
-            <label for="ticketNumber">Номер рейсу:</label>
-            <input type="text" id="ticketNumber" name="ticketNumber" th:value="${ticket.number}" readonly>
-        </div>
+            <div class="input-row">
+                <label for="ticketNumber">Номер рейсу:</label>
+                <input type="text" id="ticketNumber" name="ticketNumber" th:value="${ticket.number}" readonly>
+            </div>
 
-        <div class="input-row">
-            <label for="quantity">Кількість квитків:</label>
-            <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-        </div>
+            <div class="input-row">
+                <label for="quantity">Кількість квитків:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+            </div>
 
-        <button onclick="purchaseTicket()">Придбати квиток</button>
+            <button type="submit">Придбати квиток</button>
+        </form>
     </div>
 
     <div class="result" id="result"></div>
 </div>
-
-<script>
-    function purchaseTicket() {
-        // Логіка для покупки квитка
-        var name = document.getElementById('name').value;
-        var email = document.getElementById('email').value;
-        var ticketNumber = document.getElementById('ticketNumber').value;
-        var quantity = document.getElementById('quantity').value;
-
-
-        var resultElement = document.getElementById('result');
-        var successMessage = '<p class="success-message">Оплата успішно здійснена. Дякуємо за покупку ' + quantity + ' квитк(ів).</p>';
-        var errorMessage = '<p class="error-message">Оплата не вдалася. Перевірте введені дані та спробуйте ще раз.</p>';
-
-
-        if (quantity!=0) {
-            resultElement.innerHTML = successMessage;
-        } else {
-            resultElement.innerHTML = errorMessage;
-        }
-    }
-</script>
 
 </body>
 

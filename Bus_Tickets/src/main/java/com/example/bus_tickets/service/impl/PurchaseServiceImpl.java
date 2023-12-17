@@ -1,18 +1,14 @@
 package com.example.bus_tickets.service.impl;
 
-import com.example.bus_tickets.model.PurchaseInfo;
-import com.example.bus_tickets.model.Ticket;
-import com.example.bus_tickets.model.User;
+import com.example.bus_tickets.model.*;
+import com.example.bus_tickets.service.*;
 import com.example.bus_tickets.repository.PurchaseRepository;
-import com.example.bus_tickets.service.PurchaseService;
-import com.example.bus_tickets.service.TicketService;
-import com.example.bus_tickets.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
@@ -40,7 +36,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
             if (user != null) {
                 PurchaseInfo purchaseInfo = new PurchaseInfo();
-                purchaseInfo.setUserEmail(user);
+                purchaseInfo.setUser(user);
                 purchaseInfo.setPurchasedTicket(ticket);
                 purchaseInfo.setQuantity(quantity);
                 purchaseInfo.setTotalPrice(totalPrice);

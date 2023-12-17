@@ -13,6 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "app_user")
 public class User {
 
     @Id
@@ -20,7 +21,7 @@ public class User {
 
     private String username;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userEmail")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<PurchaseInfo> purchases;
 
     public User(String username, String email) {

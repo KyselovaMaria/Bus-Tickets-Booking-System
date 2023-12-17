@@ -1,12 +1,9 @@
 package com.example.bus_tickets.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 import jakarta.persistence. *;
 
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -20,7 +17,7 @@ public class PurchaseInfo {
 
     @ManyToOne
     @JoinColumn(name = "user_email")
-    private User userEmail;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "ticket_id")
@@ -29,13 +26,14 @@ public class PurchaseInfo {
     private int quantity;
     private double totalPrice;
 
-    // getters and setters
-
-    // constructor
-    public PurchaseInfo(User userEmail, Ticket purchasedTicket, int quantity, double totalPrice) {
-        this.userEmail = userEmail;
+    public PurchaseInfo(User user, Ticket purchasedTicket, int quantity, double totalPrice) {
+        this.user = user;
         this.purchasedTicket = purchasedTicket;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
+    }
+
+    public String getUserEmail() {
+        return user != null ? user.getEmail() : null;
     }
 }

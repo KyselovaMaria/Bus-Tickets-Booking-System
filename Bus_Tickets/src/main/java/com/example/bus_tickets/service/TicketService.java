@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-
+@Service
 public interface TicketService {
     Ticket createTicket(Ticket ticket);
     Optional<Ticket> getTicketById(long id);
