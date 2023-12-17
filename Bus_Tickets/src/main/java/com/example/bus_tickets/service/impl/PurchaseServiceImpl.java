@@ -58,18 +58,22 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
 
+   // @Override
+   // public PurchaseInfo getPurchaseInfo(String purchaseId) {
+   //     PurchaseInfo purchaseInfo = purchaseRepository.findById(purchaseId).orElse(null);
+//
+     //   if (purchaseInfo != null) {
+     //       double totalPrice = calculateTotalPrice(purchaseInfo);
+     //       purchaseInfo.setTotalPrice(totalPrice);
+     //   }
+//
+     //   return purchaseInfo;
+    //}
+
     @Override
-    public PurchaseInfo getPurchaseInfo(String purchaseId) {
-        PurchaseInfo purchaseInfo = purchaseRepository.findById(purchaseId).orElse(null);
-
-        if (purchaseInfo != null) {
-            double totalPrice = calculateTotalPrice(purchaseInfo);
-            purchaseInfo.setTotalPrice(totalPrice);
-        }
-
-        return purchaseInfo;
+    public PurchaseInfo getPurchaseInfo(Long purchaseId) {
+         return purchaseRepository.findById(purchaseId).orElse(null);
     }
-
     private double calculateTotalPrice(Ticket ticket, int quantity, boolean toIntermediate) {
         double price = toIntermediate ? ticket.getPriceToIntermediate() : ticket.getPriceToEnd();
         return price * quantity;

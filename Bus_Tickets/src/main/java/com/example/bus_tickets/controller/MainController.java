@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,9 @@ public class MainController {
         this.ticketService = ticketService;
         this.userService = userService;
     }
+
+    @Autowired
+    private PurchaseService purchaseService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -47,6 +51,30 @@ public class MainController {
         return "return";
     }
 
+    @PostMapping("/return")
+    public ResponseEntity<String> returnTicket(@RequestParam String name,
+                                               @RequestParam String email,
+                                               @RequestParam  Long purchaseId) {
+        try {
+
+            User user = userService.getUserByEmail(email);
+            PurchaseInfo purchaseInfo = purchaseService.getPurchaseInfo(purchaseId);
+
+            if (user != null && purchaseInfo != null && purchaseInfo.getUser().equals(user)) {
+                Ticket ticket = purchaseInfo.getPurchasedTicket();
+                ticket.setAvailableSeats(ticket.getAvailableSeats()+ purchaseInfo.getQuantity());
+                ticketService.updateTicket(ticket);
+
+                return ResponseEntity.ok("Квиток успішно повернуто.");
+            } else {
+                return ResponseEntity.badRequest().body("Помилка при поверненні квитка.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Помилка обробки запиту.");
+        }
+    }
+
+
     @GetMapping("/contact")
     public String showContactPage() {
         return "contact";
@@ -56,9 +84,6 @@ public class MainController {
     public String showNewsPage() {
         return "news";
     }
-
-    @Autowired
-    private PurchaseService purchaseService;
 
     @GetMapping("/booking/{ticketid}")
     public String showBookingPage(@PathVariable("ticketid") long ticketid,  Model model) {
@@ -117,4 +142,14 @@ public class MainController {
         double price = toIntermediate ? ticket.getPriceToIntermediate() : ticket.getPriceToEnd();
         return price * quantity;
     }
+
+    @PostMapping("/search")
+    public String searchTickets(@RequestParam String destination, @RequestParam String date, Model model) {
+        List<Ticket> searchResults = ticketService.searchTickets(destination, LocalDate.parse(date));
+        System.out.println("Found:" + searchResults);
+        model.addAttribute("tickets", searchResults);
+        return "home"; // Повернення на головну сторінку з оновленими результатами пошуку
+    }
+
+
 }
