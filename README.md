@@ -30,30 +30,19 @@ The project uses the `application.properties` file to configure the database con
 
 server.port=9091
 
-spring.datasource.platform=postgres
-
+spring.sql.init.platform=postgres
 spring.datasource.url=jdbc:postgresql://localhost:5433/BusTickets
-
 spring.datasource.username=postgres
-
 spring.datasource.password=root
 
 spring.jpa.database=POSTGRESQL
-
 spring.jpa.show-sql=true
-
 spring.jpa.generate-ddl=true
-
 spring.jpa.hibernate.ddl-auto=update
-
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
-
-spring.datasource.initialization-mode=always
-
 
 spring.mvc.throw-exception-if-no-handler-found=true
 
-spring.resources.add-mappings=false
 
 ### You have to check the password, username and create database with the right name
 ### *the first three routes will be created automatically
