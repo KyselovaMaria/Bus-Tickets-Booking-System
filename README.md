@@ -30,15 +30,24 @@ The project uses the `application.properties` file to configure the database con
 
 server.port=9091
 
+
 spring.sql.init.platform=postgres
+
 spring.datasource.url=jdbc:postgresql://localhost:5433/BusTickets
+
 spring.datasource.username=postgres
+
 spring.datasource.password=root
 
+
 spring.jpa.database=POSTGRESQL
+
 spring.jpa.show-sql=true
+
 spring.jpa.generate-ddl=true
+
 spring.jpa.hibernate.ddl-auto=update
+
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 
 spring.mvc.throw-exception-if-no-handler-found=true
