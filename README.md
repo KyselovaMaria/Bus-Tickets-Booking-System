@@ -59,10 +59,21 @@ spring.mvc.throw-exception-if-no-handler-found=true
 
 
 ## Overview screenshots
+
 ![image](https://github.com/KyselovaMaria/Bus-Tickets-Booking-System/assets/88087036/552e85da-1948-48cb-b9ea-3ef9b80725a8)
+
+
 ![image](https://github.com/KyselovaMaria/Bus-Tickets-Booking-System/assets/88087036/c13d84f5-0e86-4aef-9aff-c129ac1ccac5)
+
+
 ![image](https://github.com/KyselovaMaria/Bus-Tickets-Booking-System/assets/88087036/8af96a1d-7aeb-4287-b7cc-45311d827edc)
+
+
 ![image](https://github.com/KyselovaMaria/Bus-Tickets-Booking-System/assets/88087036/315e8ec8-a3f4-46da-a257-d3176eeabeb2)
+
+
 ![image](https://github.com/KyselovaMaria/Bus-Tickets-Booking-System/assets/88087036/6f14ef9f-a5a2-4a61-9cab-c68c55ab7294)
+
+
 ![image](https://github.com/KyselovaMaria/Bus-Tickets-Booking-System/assets/88087036/8a077991-c3f6-4fe0-b950-17b497023005)
 
