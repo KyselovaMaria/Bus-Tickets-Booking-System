@@ -20,4 +20,6 @@ public interface TicketService {
     List<Ticket> getAllTickets();
 
     List<Ticket> searchTickets(String destination, LocalDate date);
+
+    Long getFirstTicketId(List<Ticket> tickets);
 }

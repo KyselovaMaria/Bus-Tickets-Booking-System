@@ -93,4 +93,12 @@ public class TicketServiceImpl implements TicketService {
 
         return tickets;
     }
+
+    @Override
+    public Long getFirstTicketId(List<Ticket> tickets) {
+        if (!tickets.isEmpty()) {
+            return tickets.get(0).getId();
+        }
+        return null;
+    }
 }

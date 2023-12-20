@@ -17,6 +17,7 @@ import java.util.Objects;
 public class User {
 
     @Id
+    @Column(unique = true)
     private String email;
 
     private String username;

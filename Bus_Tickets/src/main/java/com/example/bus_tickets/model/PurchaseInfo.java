@@ -13,6 +13,7 @@ public class PurchaseInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true)
     private Long purchaseId;
 
     @ManyToOne

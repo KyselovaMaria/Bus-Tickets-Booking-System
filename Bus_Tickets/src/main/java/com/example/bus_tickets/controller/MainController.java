@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -23,15 +22,15 @@ public class MainController {
 
     private final TicketService ticketService;
     private final UserService userService;
+    private final PurchaseService purchaseService;
 
     @Autowired
-    public MainController(TicketService ticketService,UserService userService) {
+    public MainController(TicketService ticketService,UserService userService, PurchaseService purchaseService) {
         this.ticketService = ticketService;
         this.userService = userService;
+        this.purchaseService = purchaseService;
     }
 
-    @Autowired
-    private PurchaseService purchaseService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -100,33 +99,44 @@ public class MainController {
 
     @PostMapping("/booking/{ticketid}")
     public ResponseEntity<String> purchaseTicket(@PathVariable("ticketid") long ticketid, @RequestParam String name,
-                                                 @RequestParam String email, @RequestParam int quantity) {
+                                                 @RequestParam String email, @RequestParam int quantity,
+                                                 @RequestParam String ticketType) {
         try {
-            System.out.println("Name: " + name);
-            System.out.println("Email: " + email);
+            //System.out.println("Name: " + name);
+            //System.out.println("Email: " + email);
             User user = new User(name, email);
             Optional<Ticket> optionalTicket = ticketService.getTicketById(ticketid);
 
+            List<Ticket> allTickets = ticketService.getAllTickets();
+            //System.out.println(allTickets);
+
             if (optionalTicket.isPresent()) {
                 Ticket ticket = optionalTicket.get();
-                double totalPrice = calculateTotalPrice(ticket, quantity, false);
+                double totalPrice = calculateTotalPrice(ticket, quantity, "intermediate".equals(ticketType));
 
                 if (user != null) {
-                    PurchaseInfo purchaseInfo = new PurchaseInfo(user, ticket, quantity, totalPrice);
-                    System.out.println(purchaseInfo);
+                    if (quantity <= 0 || quantity > ticket.getAvailableSeats()) {
+                        return ResponseEntity.badRequest().body("Недійсна кількість. " +
+                                "Будь ласка, виберіть дійсну кількість квитків. Доступно: " + ticket.getAvailableSeats());
+                    }
+                    else{
+                        PurchaseInfo purchaseInfo = new PurchaseInfo(user, ticket, quantity, totalPrice);
+                        //System.out.println(purchaseInfo);
 
-                    user.setPurchases(new ArrayList<>());
+                        user.setPurchases(new ArrayList<>());
 
-                    user.getPurchases().add(purchaseInfo);
-                    userService.updateUser(user);
-                    ticket.setAvailableSeats(ticket.getAvailableSeats()-quantity);
-                    ticketService.updateTicket(ticket);
+                        user.getPurchases().add(purchaseInfo);
+                        userService.updateUser(user);
+                        ticket.setAvailableSeats(ticket.getAvailableSeats()-quantity);
+                        ticketService.updateTicket(ticket);
 
-                    System.out.println("Num of available seats " + ticket.getAvailableSeats());
+                        //System.out.println("Num of available seats " + ticket.getAvailableSeats());
 
-                    return ResponseEntity.ok("Оплата успішно здійснена. Дякуємо за покупку " + quantity +
-                            " квитк(ів)." +"   Cума: "+ purchaseInfo.getTotalPrice()+
-                            "   ID покупки: "+ purchaseInfo.getPurchaseId() );
+                        return ResponseEntity.ok("Оплата успішно здійснена. Дякуємо за покупку " + quantity +
+                                " квитк(ів)." +"   Cума: "+ purchaseInfo.getTotalPrice()+
+                                "   ID покупки: "+ purchaseInfo.getPurchaseId() );
+                    }
+
                 } else {
                     return ResponseEntity.badRequest().body("Помилка при покупці квитка.");
                 }
@@ -143,13 +153,17 @@ public class MainController {
         return price * quantity;
     }
 
+
     @PostMapping("/search")
     public String searchTickets(@RequestParam String destination, @RequestParam String date, Model model) {
         List<Ticket> searchResults = ticketService.searchTickets(destination, LocalDate.parse(date));
         System.out.println("Found:" + searchResults);
-        model.addAttribute("tickets", searchResults);
-        return "home"; // Повернення на головну сторінку з оновленими результатами пошуку
-    }
 
+        // Assuming you have a method in your service to get the first ticket ID
+        Long firstTicketId = ticketService.getFirstTicketId(searchResults);
+
+        // Redirect to the booking page with the first ticket ID
+        return "redirect:/booking/{firstTicketId}";
+    }
 
 }

@@ -76,7 +76,6 @@
 
 <div class="container">
     <h1>Покупка квитка</h1>
-    <h2> *до кінцевої зупинки </h2>
 
     <div class="form-container">
         <form action="/booking/{id}" method="post" th:action="@{/booking/{id}(id=${ticket.id})}">
@@ -93,6 +92,14 @@
             <div class="input-row">
                 <label for="ticketNumber">Номер рейсу:</label>
                 <input type="text" id="ticketNumber" name="ticketNumber" th:value="${ticket.number}" readonly>
+            </div>
+
+            <div class="input-row">
+                <label for="ticketType">Тип квитка:</label>
+                <select id="ticketType" name="ticketType" required>
+                    <option value="final">До кінцевої</option>
+                    <option value="intermediate">До проміжного пункту</option>
+                </select>
             </div>
 
             <div class="input-row">
