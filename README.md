@@ -1,4 +1,5 @@
-# Bus-Tickets-Booking-System
+# Bus-Tickets-Booking-System 
+### GeeksForLess Final Project on Java Spring Boot
 
 ## Каса автовокзалу - Task Description
 
